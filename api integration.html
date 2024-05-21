@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Report</title>
+</head>
+<body>
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <div class="tradingview-widget-copyright"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    {
+    "symbols": [
+      {
+        "proName": "FOREXCOM:SPXUSD",
+        "title": "S&P 500 Index"
+      },
+      {
+        "proName": "FX_IDC:EURUSD",
+        "title": "EUR to USD"
+      },
+      {
+        "proName": "BITSTAMP:BTCUSD",
+        "title": "Bitcoin"
+      },
+      {
+        "description": "Nifty 50",
+        "proName": "NSE:NIFTY"
+      },
+      {
+        "description": "Gold",
+        "proName": "OANDA:XAUUSD"
+      }
+    ],
+    "showSymbolLogo": true,
+    "isTransparent": false,
+    "displayMode": "adaptive",
+    "colorTheme": "dark",
+    "locale": "en"
+  }
+    </script>
+  </div>
+  <!-- TradingView Widget END -->
+  <h1>Weather Report</h1>
+    <label for="cityInput">Enter City:</label>
+    <input type="text" id="cityInput">
+    <button onclick="getWeather()">Get Weather</button>
+    <div id="weatherReport"></div>
+    <script>
+        function getWeather() {
+            const city = document.getElementById('cityInput').value;
+            const apiKey = '6f75f7a554098eee9f2da8bd74e30689'; // Replace with your OpenWeatherMap API key
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const weatherDescription = data.weather[0].description;
+                    const temperature = data.main.feels_like;
+                    const cityName = data.name;
+
+                    const weatherReport = `Weather in ${cityName}: ${weatherDescription}, Temperature: ${temperature}K`;
+                    document.getElementById('weatherReport').innerText = weatherReport;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
